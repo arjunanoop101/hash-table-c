@@ -3,6 +3,7 @@
 
 #include"hashtable.h"
 
+// create new item 
 static ht_item* ht_new_item(const char* k, const char* v){
     ht_item* i = malloc(sizeof(ht_item));
     i->key = strdup(k);
@@ -10,6 +11,7 @@ static ht_item* ht_new_item(const char* k, const char* v){
     return i;
 }
 
+// create hash table
 ht_hash_table* ht_new() {
     ht_hash_table* ht = malloc(sizeof(ht_hash_table));
 
@@ -76,7 +78,27 @@ void ht_insert(ht_hash_table* ht, const char* key, const char* value){
     ht->count++;
 }
 
-// main.c
+//search for the existance of a key ( returns value if exists else return NULL)
+char* ht_search(ht_hash_table* ht, const char* key){
+    int index = ht_get_hash(key,ht->size,0);
+    ht_item* item = ht->items[index];
+    int i = 1;
+    while(item != NULL){
+        if(strcmp(item->key,key)==0){
+            return item->value;
+        }
+        index = ht_get_hash(key,ht->size,i);
+        item = ht->items[index];
+        i++;
+    }
+    return NULL;
+}
+
+//delete a key:value pair
+
+
+
+
 int main() {
     ht_hash_table* ht = ht_new();
     ht_del_hash_table(ht);
